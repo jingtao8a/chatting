@@ -12,5 +12,7 @@ set(LIB_LIB
 add_executable(testmessagetype tests/testmessagetype.cpp src/messageprotocol.cpp)
 target_link_libraries(testmessagetype ${LIB_LIB})
 
+add_executable(testmessagebody tests/testmessagebody.cpp src/messageprotocol.cpp)
+target_link_libraries(testmessagebody ${LIB_LIB})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
