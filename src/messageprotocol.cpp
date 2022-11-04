@@ -1,4 +1,5 @@
 #include "../include/messageprotocol.hpp"
+#include "../include/string.h"
 
 namespace CHATTING {
 
@@ -7,11 +8,12 @@ MessageType::MessageTypeLabel MessageType::stringToMessageTypeLabel(std::string 
         if (str ==  #labelname) {\
             return labelname;\
         }
-    XX(str, GOONLINE);
-    XX(str, OFFLINE);
+    XX(str, ONLINEMESSAGE);
+    XX(str, OFFLINEMESSAGE);
     XX(str, PUBLICMESSAGE);
     XX(str, PRIVATEMESSAGE);
-    return UNKNOWN;
+    XX(str, SYSTEMMESSAGE);
+    return UNKNOWNMESSAGE;
 #undef XX
 }
     
@@ -21,10 +23,11 @@ std::string MessageType::messageTypeLabelToString(MessageTypeLabel label) {
             return #labelname;
 
     switch(label) {
-        XX(GOONLINE);
-        XX(OFFLINE);
+        XX(ONLINEMESSAGE);
+        XX(OFFLINEMESSAGE);
         XX(PUBLICMESSAGE);
         XX(PRIVATEMESSAGE);
+        XX(SYSTEMMESSAGE);
         default:
             return "unknown";
     }
@@ -38,8 +41,8 @@ MessageBody::MessageBody(MessageType::MessageTypeLabel label, std::string localU
 
 bool MessageBody::isWrong() {
     switch(m_messageTypeLabel) {
-        case MessageType::MessageTypeLabel::GOONLINE:
-        case MessageType::MessageTypeLabel::OFFLINE:
+        case MessageType::MessageTypeLabel::ONLINEMESSAGE:
+        case MessageType::MessageTypeLabel::OFFLINEMESSAGE:
         case MessageType::MessageTypeLabel::PUBLICMESSAGE:
             if (m_localUser.empty()) {
                 return true;
@@ -87,7 +90,7 @@ std::shared_ptr<MessageBody> MessageBody::fromString(std::string messagebody) {
         return nullptr;
     }
     MessageType::MessageTypeLabel label = MessageType::stringToMessageTypeLabel(str);
-    if (label == MessageType::MessageTypeLabel::UNKNOWN) {
+    if (label == MessageType::MessageTypeLabel::UNKNOWNMESSAGE) {
         return nullptr;
     }
     body->setMessageTypeLabel(label);
@@ -125,4 +128,15 @@ std::shared_ptr<MessageBody> MessageBody::fromString(std::string messagebody) {
     return body;
 }
 
+void MessageBox::fromString(std::string str) {
+    memcpy(m_buf, &str[0], str.size());
+    m_size = str.size();
+}
+
+std::string MessageBox::toString() {
+    std::string str;
+    str.resize(m_size);
+    memcpy(&str[0], m_buf, m_size);
+    return str;
+}
 }

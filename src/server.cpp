@@ -1,14 +1,19 @@
-#include "../include/server.hpp"
+#include "../include/chatserver.hpp"
 
-namespace CHATTING {
+static std::shared_ptr<YXTWebCpp::Logger> g_logger = YXTWebCpp_LOG_ROOT();
 
-void ChatServer::handleClient(std::shared_ptr<YXTWebCpp::Socket> sock) {
-    std::string buf;
-    buf.resize(1024);
-    int ret = sock->recv(&buf[0], buf.size(), 0);
-    if (ret > 0) {
-        
+void server() {
+    std::shared_ptr<CHATTING::ChatServer> server(new CHATTING::ChatServer);
+    std::shared_ptr<YXTWebCpp::Address> addr = YXTWebCpp::IPAddress::Create("127.0.0.1", 7766);
+    while (!server->bind(addr) ) {
+        YXTWebCpp_LOG_ERROR(g_logger) << "bind again";
     }
+    server->setName("chatServer");
+    server->setRecvTimeout(-1);
+    server->start();
 }
 
+int main() {
+    std::shared_ptr<YXTWebCpp::IOManager> iom(new YXTWebCpp::IOManager(1, true, "chat server main"));
+    iom->schedule(server);
 }

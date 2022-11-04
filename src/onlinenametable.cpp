@@ -2,16 +2,18 @@
 
 namespace CHATTING {
 
-bool OnlineNameTable::isOnline(std::string name) {
+OnlineNameTable::OnlineNameTable() {}
+
+std::shared_ptr<YXTWebCpp::Socket> OnlineNameTable::isOnline(std::string name) {
     auto res = m_nameTable.find(name);
     if (res == m_nameTable.end()) {
-        return false;
+        return nullptr;
     }
-    return true;
+    return res->second;
 }
 
-void OnlineNameTable::goOnline(std::string name) {
-    m_nameTable.insert(name);
+void OnlineNameTable::Online(std::string name, std::shared_ptr<YXTWebCpp::Socket> sock) {
+    m_nameTable[name] = sock;
 }
 
 void OnlineNameTable::offOnline(std::string name) {
