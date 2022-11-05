@@ -1,3 +1,6 @@
+#ifndef _MESSAGEPROTOCOL_HPP_
+#define _MESSAGEPROTOCOL_HPP_
+
 #include <string>
 #include <memory>
 
@@ -58,3 +61,5 @@ struct MessageBox {
 };
 
 }
+
+#endif

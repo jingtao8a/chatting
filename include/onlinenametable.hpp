@@ -1,3 +1,6 @@
+#ifndef _ONLINENAMETABLE_HPP_
+#define _ONLINENAMETABLE_HPP_
+
 #include <yxtwebcpp/yxtwebcpp.hpp>
 #include <unordered_map>
 #include <string>
@@ -18,3 +21,5 @@ private:
 };
 
 }
+
+#endif

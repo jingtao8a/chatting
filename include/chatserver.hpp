@@ -1,3 +1,6 @@
+#ifndef _CHATSERVER_HPP_
+#define _CHATSERVER_HPP_
+
 #include "messageprotocol.hpp"
 #include "onlinenametable.hpp"
 
@@ -20,3 +23,5 @@ private:
 };
 
 }
+
+#endif

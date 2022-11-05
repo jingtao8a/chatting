@@ -1,3 +1,6 @@
+#ifndef _CHATCLIENT_HPP_
+#define _CHATCLIENT_HPP_
+
 #include <yxtwebcpp/yxtwebcpp.hpp>
 #include "messageprotocol.hpp"
 
@@ -25,3 +28,5 @@ private:
 };
 
 }
+
+#endif
